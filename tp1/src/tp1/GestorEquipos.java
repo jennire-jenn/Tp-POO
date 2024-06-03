@@ -175,6 +175,7 @@ public class GestorEquipos {
 		String num,fase;
 		String [] numeros = {"Primero","Segundo","Tercero","Cuarto"};
 		if (ListaPartidos.size()<4) {
+			num=(String)JOptionPane.showInputDialog(null, "Elija numero de Partido", null, 0, null, numeros, numeros[0]);
 			do {
 				JOptionPane.showMessageDialog(null, "Elija el primer Equipo");
 				equipo1 = seleccionarEquipo();
@@ -184,7 +185,6 @@ public class GestorEquipos {
 					JOptionPane.showMessageDialog(null, "Los equipos tienen que ser distintos");
 				}
 			} while (equipo1==equipo2);
-			num=(String)JOptionPane.showInputDialog(null, "Elija numero de Partido", null, 0, null, numeros, numeros[0]);
 			fase="Primera fase";
 			ListaPartidos.add(new Partido(equipo1,equipo2,num,fase));
 		} else {
