@@ -6,13 +6,15 @@ public class Partido {
 	private Equipo equipo2;
 	private Equipo ganador;
 	private Equipo perdedor;
-	public Partido(Equipo equipo1, Equipo equipo2, String numPartido) {
+	private String fase;
+	public Partido(Equipo equipo1, Equipo equipo2, String numPartido, String fase) {
 		super();
 		this.numPartido=numPartido;
 		this.equipo1 = equipo1;
 		this.equipo2 = equipo2;
 		this.ganador = null;
 		this.perdedor = null;
+		this.fase = fase;
 	}
 	public Equipo getEquipo1() {
 		return equipo1;
@@ -44,11 +46,18 @@ public class Partido {
 	public void setNumPartido(String numPartido) {
 		this.numPartido = numPartido;
 	}
+	public String getFase() {
+		return fase;
+	}
+	public void setFase(String fase) {
+		this.fase = fase;
+	}
 	@Override
 	public String toString() {
 		return "Partido [numPartido=" + numPartido + ", equipo1=" + equipo1 + ", equipo2=" + equipo2 + ", ganador="
-				+ ganador + ", perdedor=" + perdedor + "]";
+				+ ganador + ", perdedor=" + perdedor + ", fase=" + fase + "]";
 	}
+
 	
 	
 	

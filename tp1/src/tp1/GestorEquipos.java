@@ -172,7 +172,7 @@ public class GestorEquipos {
 	public void  asignarPartido(){
 		Equipo equipo1;
 		Equipo equipo2;
-		String num;
+		String num,fase;
 		String [] numeros = {"Primero","Segundo","Tercero","Cuarto"};
 		if (ListaPartidos.size()<4) {
 			do {
@@ -185,10 +185,10 @@ public class GestorEquipos {
 				}
 			} while (equipo1==equipo2);
 			num=(String)JOptionPane.showInputDialog(null, "Elija numero de Partido", null, 0, null, numeros, numeros[0]);
-			
-			ListaPartidos.add(new Partido(equipo1,equipo2,num));
+			fase="Primera fase";
+			ListaPartidos.add(new Partido(equipo1,equipo2,num,fase));
 		} else {
-			JOptionPane.showMessageDialog(null, "Ya se asignaron los partidos de la primera ronda");
+			JOptionPane.showMessageDialog(null, "Ya se asignaron los partidos de la primera fase");
 		}
 		
 		
@@ -217,57 +217,63 @@ public class GestorEquipos {
 	}
 	public void jugarPartido(Partido partido) {
 		int goles1=0, goles2=0;
-		if (partido.getEquipo1().getListajugadores().size()<7) {
-			JOptionPane.showMessageDialog(null, "No se puede jugar porque no hay jugadores suficientes");
-		} else if (partido.getEquipo2().getListajugadores().size()<7) {
-			JOptionPane.showMessageDialog(null, "No se puede jugar porque no hay jugadores suficientes");
-		} else {
-			JOptionPane.showMessageDialog(null, "Se jugara el partido de "+partido.getEquipo1().getNombre()+" y "+partido.getEquipo2().getNombre());
-			do {
-				for (Jugador jugador : partido.getEquipo1().getListajugadores()) {
-					if (!jugador.getPosicion().equals("Arquero")) {
-						if ((int)(Math.random()*5)==0) {
-							jugador.setCantGoles(jugador.getCantGoles()+1);
-							JOptionPane.showMessageDialog(null, jugador.getNombre()+" hizo gol");
-							goles1++;
-						}
-					}
-					} 
-						
-					
-					
-				
-				 for (Jugador jugador : partido.getEquipo2().getListajugadores()) {
+		if (partido.getGanador()==null) {
+			if (partido.getEquipo1().getListajugadores().size()<7) {
+				JOptionPane.showMessageDialog(null, "No se puede jugar porque no hay jugadores suficientes");
+			} else if (partido.getEquipo2().getListajugadores().size()<7) {
+				JOptionPane.showMessageDialog(null, "No se puede jugar porque no hay jugadores suficientes");
+			} else {
+				JOptionPane.showMessageDialog(null, "Se jugara el partido de "+partido.getEquipo1().getNombre()+" y "+partido.getEquipo2().getNombre());
+				do {
+					for (Jugador jugador : partido.getEquipo1().getListajugadores()) {
 						if (!jugador.getPosicion().equals("Arquero")) {
 							if ((int)(Math.random()*5)==0) {
 								jugador.setCantGoles(jugador.getCantGoles()+1);
 								JOptionPane.showMessageDialog(null, jugador.getNombre()+" hizo gol");
-								goles2++;
+								goles1++;
 							}
 						}
+						} 
 							
 						
 						
-						
-					}
-				} while (goles1==goles2);
-			partido.getEquipo1().setPartidosjugados(partido.getEquipo1().getPartidosjugados()+1);
-			partido.getEquipo2().setPartidosjugados(partido.getEquipo2().getPartidosjugados()+1);
-				JOptionPane.showMessageDialog(null, "El resultado del partido fue "+goles1+"-"+goles2);
-				if (goles1<goles2) {
-					partido.setGanador(partido.getEquipo2());
-					partido.setPerdedor(partido.getEquipo1());
+					
+					 for (Jugador jugador : partido.getEquipo2().getListajugadores()) {
+							if (!jugador.getPosicion().equals("Arquero")) {
+								if ((int)(Math.random()*5)==0) {
+									jugador.setCantGoles(jugador.getCantGoles()+1);
+									JOptionPane.showMessageDialog(null, jugador.getNombre()+" hizo gol");
+									goles2++;
+								}
+							}
+								
+							
+							
+							
+						}
+					} while (goles1==goles2);
+				partido.getEquipo1().setPartidosjugados(partido.getEquipo1().getPartidosjugados()+1);
+				partido.getEquipo2().setPartidosjugados(partido.getEquipo2().getPartidosjugados()+1);
+					JOptionPane.showMessageDialog(null, "El resultado del partido fue "+goles1+"-"+goles2);
+					if (goles1<goles2) {
+						partido.setGanador(partido.getEquipo2());
+						partido.setPerdedor(partido.getEquipo1());
 
-					partido.getEquipo2().setPartidosganados(partido.getEquipo2().getPartidosganados()+1);
-					JOptionPane.showMessageDialog(null, "El quipo ganador fue: "+partido.getEquipo2().getNombre());
-				} else {
-					partido.setGanador(partido.getEquipo1());
-					partido.setPerdedor(partido.getEquipo2());
-					partido.getEquipo1().setPartidosganados(partido.getEquipo1().getPartidosganados()+1);
-					JOptionPane.showMessageDialog(null, "El quipo ganador fue: "+partido.getEquipo1().getNombre());
-				}
-				
+						partido.getEquipo2().setPartidosganados(partido.getEquipo2().getPartidosganados()+1);
+						JOptionPane.showMessageDialog(null, "El quipo ganador fue: "+partido.getEquipo2().getNombre());
+					} else {
+						partido.setGanador(partido.getEquipo1());
+						partido.setPerdedor(partido.getEquipo2());
+						partido.getEquipo1().setPartidosganados(partido.getEquipo1().getPartidosganados()+1);
+						JOptionPane.showMessageDialog(null, "El quipo ganador fue: "+partido.getEquipo1().getNombre());
+					}
+					
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "El partido ya se jugó");
 		}
+		
+		
 		
 	}
 		
