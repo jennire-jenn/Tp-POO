@@ -7,6 +7,7 @@ public class Partido {
 	private Equipo ganador;
 	private Equipo perdedor;
 	private String fase;
+	private int cantgoles;
 	public Partido(Equipo equipo1, Equipo equipo2, String numPartido, String fase) {
 		super();
 		this.numPartido=numPartido;
@@ -15,6 +16,7 @@ public class Partido {
 		this.ganador = null;
 		this.perdedor = null;
 		this.fase = fase;
+		this.cantgoles = 0;
 	}
 	public Equipo getEquipo1() {
 		return equipo1;
@@ -52,11 +54,18 @@ public class Partido {
 	public void setFase(String fase) {
 		this.fase = fase;
 	}
+	public int getCantgoles() {
+		return cantgoles;
+	}
+	public void setCantgoles(int cantgoles) {
+		this.cantgoles = cantgoles;
+	}
 	@Override
 	public String toString() {
 		return "Partido [numPartido=" + numPartido + ", equipo1=" + equipo1 + ", equipo2=" + equipo2 + ", ganador="
-				+ ganador + ", perdedor=" + perdedor + ", fase=" + fase + "]";
+				+ ganador + ", perdedor=" + perdedor + ", fase=" + fase + ", cantgoles=" + cantgoles + "]";
 	}
+	
 
 	
 	

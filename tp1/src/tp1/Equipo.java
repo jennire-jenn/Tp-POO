@@ -249,7 +249,7 @@ public class Equipo {
 		
 	}
 	public void verCantJugadores() {
-		JOptionPane.showMessageDialog(null, cantjug);
+		JOptionPane.showMessageDialog(null, "Hay "+cantjug+" jugadores");
 		
 	}
 	public void verListaJugadores() {
