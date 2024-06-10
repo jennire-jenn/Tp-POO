@@ -1,5 +1,7 @@
 package tp1;
 
+import java.time.LocalDate;
+
 public class Partido {
 	private String numPartido;
 	private Equipo equipo1;
@@ -8,7 +10,10 @@ public class Partido {
 	private Equipo perdedor;
 	private String fase;
 	private int cantgoles;
-	public Partido(Equipo equipo1, Equipo equipo2, String numPartido, String fase) {
+	private int goles1;
+	private int goles2;
+	private LocalDate fecha;
+	public Partido(Equipo equipo1, Equipo equipo2, String numPartido, String fase, LocalDate fecha) {
 		super();
 		this.numPartido=numPartido;
 		this.equipo1 = equipo1;
@@ -17,6 +22,9 @@ public class Partido {
 		this.perdedor = null;
 		this.fase = fase;
 		this.cantgoles = 0;
+		this.goles1 = 0;
+		this.goles2 = 0;
+		this.fecha = fecha;
 	}
 	public Equipo getEquipo1() {
 		return equipo1;
@@ -60,11 +68,31 @@ public class Partido {
 	public void setCantgoles(int cantgoles) {
 		this.cantgoles = cantgoles;
 	}
+	public int getGoles1() {
+		return goles1;
+	}
+	public void setGoles1(int goles1) {
+		this.goles1 = goles1;
+	}
+	public int getGoles2() {
+		return goles2;
+	}
+	public void setGoles2(int goles2) {
+		this.goles2 = goles2;
+	}
+	public LocalDate getFecha() {
+		return fecha;
+	}
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
+	}
 	@Override
 	public String toString() {
-		return "Partido [numPartido=" + numPartido + ", equipo1=" + equipo1 + ", equipo2=" + equipo2 + ", ganador="
-				+ ganador + ", perdedor=" + perdedor + ", fase=" + fase + ", cantgoles=" + cantgoles + "]";
+		return "Partido [numPartido=" + numPartido + ", equipo1=" + equipo1.getNombre() + ", equipo2=" + equipo2.getNombre() + ", ganador="
+				+ ganador + ", perdedor=" + perdedor + ", fase=" + fase + ", cantgoles=" + cantgoles + ", goles1="
+				+ goles1 + ", goles2=" + goles2 + "]";
 	}
+	
 	
 
 	

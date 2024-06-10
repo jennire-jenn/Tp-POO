@@ -1,5 +1,6 @@
 package tp1;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
@@ -113,6 +114,11 @@ public class GestorEquipos {
 	}
 	
 	}
+ public void rellenarEquipos() {
+	 
+		 
+	 }
+	
 	public void  eliminarEquipo() {
 		
 		Equipo seleccionado = seleccionarEquipo();
@@ -169,28 +175,84 @@ public class GestorEquipos {
 		
 		
 	}
+	public LocalDate asignarFecha() {
+		int dia, mes, anio;
+		LocalDate fecha;
+		do {
+			dia=Integer.parseInt(JOptionPane.showInputDialog("Ingrese el dia de inicio del torneo"));
+			if (dia<0||dia>31) {
+				JOptionPane.showMessageDialog(null, "El día no puede ser menor a 0 ni mayor a 31");
+			}
+		} while (dia<0||dia>31);
+		do {
+			mes=Integer.parseInt(JOptionPane.showInputDialog("Ingrese el número de mes de inicio del torneo"));
+			if (mes<0||mes>12) {
+				JOptionPane.showMessageDialog(null, "El día no puede ser menor a 0 ni mayor a 12");
+			}
+		} while (mes<0||mes>12);
+		
+			anio=Integer.parseInt(JOptionPane.showInputDialog("Ingrese año del torneo"));
+		
+			fecha=LocalDate.of(anio, mes, dia);
+		
+		return fecha;
+		
+	}
+	public Equipo asignarEquipoAPartido() {
+		LinkedList<Equipo> ListaEquiposParaPartidos = new LinkedList<Equipo>();
+		ListaEquiposParaPartidos=ListaEquipos;
+		for (Partido partido : ListaPartidos) {
+		for (Equipo equipo : ListaEquiposParaPartidos) {
+			if (equipo==partido.getEquipo1()||equipo==partido.getEquipo2()) {
+				ListaEquiposParaPartidos.remove(equipo);
+			}
+		}
+		}
+		 String[] equipossarray = new String[ListaEquiposParaPartidos.size()];
+		 Equipo seleccionado=null;
+			
+			for (int i = 0; i < ListaEquiposParaPartidos.size(); i++) {
+				equipossarray[i] = ListaEquiposParaPartidos.get(i).getNombre();
+			}
+			
+			String equipoSeleccionado =(String)JOptionPane.showInputDialog(null, 
+					"Elija un Equipo", null, 0, 
+					null, equipossarray, equipossarray[0]);
+			
+			JOptionPane.showMessageDialog(null, equipoSeleccionado);
+			for (Equipo equipo : ListaEquiposParaPartidos) {
+				if (equipo.getNombre().equals(equipoSeleccionado)) {
+					seleccionado = equipo;
+					break;
+				}
+			}
+			return seleccionado;
+	}
 	public void  asignarPartido(){
 		Equipo equipo1=null;
 		Equipo equipo2=null;
+		LocalDate fecha;
 		String num="",fase="";
 		String [] numeros = {"Primero","Segundo","Tercero","Cuarto"};
 		if (ListaEquipos.size()<8) {
-			JOptionPane.showMessageDialog(null, "Todavía no estan creados todos los partidos");
+			JOptionPane.showMessageDialog(null, "Todavía no estan creados todos los Equipos");
 		} else {
+			fecha = asignarFecha();
 			if (ListaPartidos.size()<4) {
 				do {
 					num=(String)JOptionPane.showInputDialog(null, "Elija numero de Partido", null, 0, null, numeros, numeros[0]);
 					do {	
 						JOptionPane.showMessageDialog(null, "Elija el primer Equipo");
-						equipo1 = seleccionarEquipo();
+						equipo1 = asignarEquipoAPartido();
 						JOptionPane.showMessageDialog(null, "Elija el segundo Equipo");
-						equipo2 = seleccionarEquipo();
+						equipo2 = asignarEquipoAPartido();
 						if (equipo1==equipo2) {
 							JOptionPane.showMessageDialog(null, "Los equipos tienen que ser distintos");
 						}
 					} while (equipo1==equipo2);
 						fase="Primera fase";
-						ListaPartidos.add(new Partido(equipo1,equipo2,num,fase));
+						ListaPartidos.add(new Partido(equipo1,equipo2,num,fase,fecha));
+						
 					
 				} while (ListaPartidos.size()<4);
 				
@@ -201,11 +263,13 @@ public class GestorEquipos {
 					}
 					if (partido.getNumPartido().equals("Segundo")) {
 						equipo2=partido.getGanador();
+						fecha=partido.getFecha().plusDays(1);
 					}
 					if (!(equipo1==null)&&!(equipo2==null)) {
 						num="Quinto";
 						fase="Segunda fase";
-						ListaPartidos.add(new Partido(equipo1,equipo2,num,fase));
+						fecha=partido.getFecha().plusDays(1);
+						ListaPartidos.add(new Partido(equipo1,equipo2,num,fase,fecha));
 					}
 					
 				}
@@ -219,7 +283,8 @@ public class GestorEquipos {
 					if (!(equipo1==null)&&!(equipo2==null)) {
 						num="Sexto";
 						fase="Segunda fase";
-						ListaPartidos.add(new Partido(equipo1,equipo2,num,fase));
+						fecha=partido.getFecha().plusDays(1);
+						ListaPartidos.add(new Partido(equipo1,equipo2,num,fase,fecha));
 					}
 					
 				}
@@ -234,7 +299,8 @@ public class GestorEquipos {
 					if (!(equipo1==null)&&!(equipo2==null)) {
 						num="Septimo";
 						fase="Tercera fase";
-						ListaPartidos.add(new Partido(equipo1,equipo2,num,fase));
+						fecha=partido.getFecha().plusDays(1);
+						ListaPartidos.add(new Partido(equipo1,equipo2,num,fase,fecha));
 					}
 					
 				}
@@ -255,6 +321,10 @@ public class GestorEquipos {
 		
 		
 	}
+	public void buscarPartido() {
+		Partido seleccionado = seleccionarPartido();
+		JOptionPane.showMessageDialog(null, seleccionado);
+	}
 	public void  verCantEquipos(){
 		JOptionPane.showMessageDialog(null, "Hay "+ListaEquipos.size()+"Equipos");
 		
@@ -263,6 +333,14 @@ public class GestorEquipos {
 		String lista="";
 		for (int i = 0; i < ListaEquipos.size(); i++) {
 			lista=lista+"\n"+ListaEquipos.get(i);
+		}
+		JOptionPane.showMessageDialog(null, lista);
+		
+	}
+	public void  verListaPartidos(){
+		String lista="";
+		for (int i = 0; i < ListaPartidos.size(); i++) {
+			lista=lista+"\n"+ListaPartidos.get(i);
 		}
 		JOptionPane.showMessageDialog(null, lista);
 		
@@ -314,6 +392,8 @@ public class GestorEquipos {
 						}
 					} while (goles1==goles2);
 				partido.setCantgoles(goles1+goles2);
+				partido.setGoles1(goles1);
+				partido.setGoles2(goles2);
 				partido.getEquipo1().setPartidosjugados(partido.getEquipo1().getPartidosjugados()+1);
 				partido.getEquipo2().setPartidosjugados(partido.getEquipo2().getPartidosjugados()+1);
 					JOptionPane.showMessageDialog(null, "El resultado del partido fue "+goles1+"-"+goles2);
@@ -348,8 +428,8 @@ public class GestorEquipos {
 	}
 	public void verEstadisticas(){
 		int max=0; 
-		String maxjugador="",opcion,maxgoles="";
-		String [] opciones= {"Jugador con más goles","Partido con más goles"};
+		String maxjugador="",opcion,maxgoles="", maxdif="",ganador="";
+		String [] opciones= {"Jugador con más goles","Equipo que ganó el torneo","Partido con más goles","Ver partido con mayor diferencia de goles"};
 		
 		opcion=(String)JOptionPane.showInputDialog(null, "Ingrese lo que desea ver", null, 0, null, opciones, opciones[0]);
 		switch (opcion) {
@@ -364,7 +444,25 @@ public class GestorEquipos {
 			}
 			JOptionPane.showMessageDialog(null, maxjugador);
 			break;
-
+		case "Ver partido con mayor diferencia de goles":
+			max=0;
+		int	dif=0;
+			
+				for (Partido partido : ListaPartidos) {
+					if (partido.getGoles1()>partido.getGoles2()) {
+						dif = partido.getGoles1() - partido.getGoles2();
+					} else {
+						dif = partido.getGoles2() - partido.getGoles1();
+					}
+					
+					if (dif>max) {
+						max=dif;
+						maxdif="El partido con mayor diferencia fue el de "+partido.getEquipo1().getNombre()+" contra "+partido.getEquipo2().getNombre();
+					}
+				}
+			
+			JOptionPane.showMessageDialog(null, maxdif);
+			break;
 		case "Partido con más goles":
 			for (Partido partido : ListaPartidos) {
 				if (partido.getCantgoles()>max) {
@@ -373,6 +471,15 @@ public class GestorEquipos {
 				}
 			}
 			JOptionPane.showMessageDialog(null, maxgoles);
+			break;
+		case "Equipo que ganó el torneo":
+			for (Equipo equipo : ListaEquipos) {
+				if (equipo.getPartidosganados()>max) {
+					max=equipo.getPartidosganados();
+					ganador="El equipo ganador fue "+equipo;
+				}
+			}
+			JOptionPane.showMessageDialog(null, ganador);
 			break;
 		}
 	
