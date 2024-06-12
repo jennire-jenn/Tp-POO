@@ -115,7 +115,17 @@ public class GestorEquipos {
 	
 	}
  public void rellenarEquipos() {
-	 
+	 int cant;
+	 cant=8-ListaEquipos.size();
+	 for (int i = 0; i < cant; i++) {
+		 int num= i+1;
+		 ListaEquipos.add(new Equipo("Equipo"+num,"colores","ciudad"));
+	}
+	 JOptionPane.showMessageDialog(null, "Se crearon "+cant+" equipos");
+	 for (Equipo equipo : ListaEquipos) {
+		equipo.agregarJugadoresFalso(11);
+	}
+	 JOptionPane.showMessageDialog(null, "Se agregaron 11 jugadores a todos los equipos");
 		 
 	 }
 	
@@ -201,13 +211,6 @@ public class GestorEquipos {
 	public Equipo asignarEquipoAPartido() {
 		LinkedList<Equipo> ListaEquiposParaPartidos = new LinkedList<Equipo>();
 		ListaEquiposParaPartidos=ListaEquipos;
-		for (Partido partido : ListaPartidos) {
-		for (Equipo equipo : ListaEquiposParaPartidos) {
-			if (equipo==partido.getEquipo1()||equipo==partido.getEquipo2()) {
-				ListaEquiposParaPartidos.remove(equipo);
-			}
-		}
-		}
 		 String[] equipossarray = new String[ListaEquiposParaPartidos.size()];
 		 Equipo seleccionado=null;
 			
@@ -226,6 +229,7 @@ public class GestorEquipos {
 					break;
 				}
 			}
+			ListaEquiposParaPartidos.remove(seleccionado);
 			return seleccionado;
 	}
 	public void  asignarPartido(){
@@ -240,7 +244,19 @@ public class GestorEquipos {
 			fecha = asignarFecha();
 			if (ListaPartidos.size()<4) {
 				do {
-					num=(String)JOptionPane.showInputDialog(null, "Elija numero de Partido", null, 0, null, numeros, numeros[0]);
+					do {
+						num=null;
+						num=(String)JOptionPane.showInputDialog(null, "Elija numero de Partido", null, 0, null, numeros, numeros[0]);
+						if (ListaPartidos.size()>0) {
+							for (Partido partido : ListaPartidos) {
+								if (num.equals(partido.getNumPartido())) {
+									num=null;
+									JOptionPane.showMessageDialog(null, "Ya se asigno ese partido");
+								}
+							}
+						}
+					} while (num==null);
+					
 					do {	
 						JOptionPane.showMessageDialog(null, "Elija el primer Equipo");
 						equipo1 = asignarEquipoAPartido();
@@ -368,7 +384,7 @@ public class GestorEquipos {
 						if (!jugador.getPosicion().equals("Arquero")) {
 							if ((int)(Math.random()*5)==0) {
 								jugador.setCantGoles(jugador.getCantGoles()+1);
-								JOptionPane.showMessageDialog(null, jugador.getNombre()+" hizo gol");
+								JOptionPane.showMessageDialog(null, jugador.getNombre()+" de "+partido.getEquipo1().getNombre()+" hizo gol");
 								goles1++;
 							}
 						}
@@ -381,7 +397,7 @@ public class GestorEquipos {
 							if (!jugador.getPosicion().equals("Arquero")) {
 								if ((int)(Math.random()*5)==0) {
 									jugador.setCantGoles(jugador.getCantGoles()+1);
-									JOptionPane.showMessageDialog(null, jugador.getNombre()+" hizo gol");
+									JOptionPane.showMessageDialog(null, jugador.getNombre()+" de "+partido.getEquipo1().getNombre()+" hizo gol");
 									goles2++;
 								}
 							}
@@ -402,12 +418,12 @@ public class GestorEquipos {
 						partido.setPerdedor(partido.getEquipo1());
 
 						partido.getEquipo2().setPartidosganados(partido.getEquipo2().getPartidosganados()+1);
-						JOptionPane.showMessageDialog(null, "El quipo ganador fue: "+partido.getEquipo2().getNombre());
+						JOptionPane.showMessageDialog(null, "El equipo ganador fue: "+partido.getEquipo2().getNombre());
 					} else {
 						partido.setGanador(partido.getEquipo1());
 						partido.setPerdedor(partido.getEquipo2());
 						partido.getEquipo1().setPartidosganados(partido.getEquipo1().getPartidosganados()+1);
-						JOptionPane.showMessageDialog(null, "El quipo ganador fue: "+partido.getEquipo1().getNombre());
+						JOptionPane.showMessageDialog(null, "El equipo ganador fue: "+partido.getEquipo1().getNombre());
 					}
 					if (opcion.equals("Sí")) {
 						if (apostado.equals(partido.getGanador().getNombre())) {
@@ -472,7 +488,7 @@ public class GestorEquipos {
 			}
 			JOptionPane.showMessageDialog(null, maxgoles);
 			break;
-		case "Equipo que ganó el torneo":
+		case "Equipo que más ganó":
 			for (Equipo equipo : ListaEquipos) {
 				if (equipo.getPartidosganados()>max) {
 					max=equipo.getPartidosganados();

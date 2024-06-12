@@ -7,8 +7,8 @@ class Main {
 	public static void main(String[] args) {
 		String [] opcionesprincipales = {"Gestionar jugadores","Gestionar equipos", "Gestionar partidos","Salir"};
 		String [] opcionesdeequipo = {"Agregar Jugador","Eliminar Jugador", "Modificar Jugador","Rellenar","Ver Jugador","Ver cantidad de Jugadores", "Ver Lista de Jugadores", "Salir"};
-		String [] opcionesdegestor = {"Agregar Equipo","Eliminar Equipo", "Modificar Equipo","Ver Equipo","Ver cantidad de Equipos", "Ver Lista de Equipos","Salir"};
-		String [] opcionesdepartido = {"Asignar Partido", "Jugar Partido","Salir"};
+		String [] opcionesdegestor = {"Agregar Equipo","Rellenar Equipos","Eliminar Equipo", "Modificar Equipo","Ver Equipo","Ver cantidad de Equipos", "Ver Lista de Equipos","Salir"};
+		String [] opcionesdepartido = {"Asignar Partido", "Jugar Partido","Ver estadisticas","Salir"};
 		Equipo equipo;
 		Partido partido;
 		String opcion,opcion2;
@@ -81,6 +81,9 @@ class Main {
 					case "Ver Lista de Equipos":
 						gestor.verListaEquipos();
 						break;
+					case "Rellenar Equipos":
+						gestor.rellenarEquipos();
+						break;
 					}
 				} while (!opcion2.equals("Salir"));
 				break;
@@ -97,6 +100,8 @@ class Main {
 						partido=gestor.seleccionarPartido();
 						gestor.jugarPartido(partido);
 					break;
+					case "Ver estadisticas":
+						gestor.verEstadisticas();
 					}
 				} while (!opcion2.equals("Salir"));
 				break;
