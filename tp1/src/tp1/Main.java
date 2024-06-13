@@ -1,5 +1,6 @@
 package tp1;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 class Main {
@@ -13,9 +14,8 @@ class Main {
 		Partido partido;
 		String opcion,opcion2;
 		GestorEquipos gestor = new GestorEquipos();
-		
 		do {
-			opcion=(String) JOptionPane.showInputDialog(null, "Ingrese la accion a realizar", null, 0, null, opcionesprincipales, opcionesprincipales[0]);
+			opcion=(String) JOptionPane.showInputDialog(null, "Ingrese la accion a realizar", null, JOptionPane.DEFAULT_OPTION, new ImageIcon(Main.class.getResource("/img/copa.jpg")), opcionesprincipales, opcionesprincipales[0]);
 			switch (opcion) {
 			case "Gestionar jugadores":
 				if (gestor.getListaEquipos().size()==0) {
@@ -27,7 +27,7 @@ class Main {
 					
 					
 					do {
-						opcion2=(String) JOptionPane.showInputDialog(null, "Ingrese la accion a realizar", null, 0, null, opcionesdeequipo, opcionesdeequipo[0]);
+						opcion2=(String) JOptionPane.showInputDialog(null, "Ingrese la accion a realizar", null, JOptionPane.DEFAULT_OPTION, new ImageIcon(Main.class.getResource("/img/jugador.jpg")), opcionesdeequipo, opcionesdeequipo[0]);
 						switch (opcion2) {
 						case "Agregar Jugador":
 							equipo.agregarJugador();
@@ -61,7 +61,7 @@ class Main {
 				
 				
 				do {
-					opcion2=(String) JOptionPane.showInputDialog(null, "Ingrese la accion a realizar", null, 0, null, opcionesdegestor, opcionesdegestor[0]);
+					opcion2=(String) JOptionPane.showInputDialog(null, "Ingrese la accion a realizar", null, JOptionPane.DEFAULT_OPTION, new ImageIcon(Main.class.getResource("/img/equipo.png")), opcionesdegestor, opcionesdegestor[0]);
 					switch (opcion2) {
 					case "Agregar Equipo":
 						gestor.agregarEquipo();
@@ -91,7 +91,7 @@ class Main {
 				
 				
 				do {
-					opcion2=(String) JOptionPane.showInputDialog(null, "Ingrese la accion a realizar", null, 0, null, opcionesdepartido, opcionesdepartido[0]);
+					opcion2=(String) JOptionPane.showInputDialog(null, "Ingrese la accion a realizar", null, JOptionPane.DEFAULT_OPTION, new ImageIcon(Main.class.getResource("/img/partido.jpg")), opcionesdepartido, opcionesdepartido[0]);
 					switch (opcion2) {
 					case "Asignar Partido":
 						gestor.asignarPartido();

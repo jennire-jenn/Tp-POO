@@ -2,6 +2,7 @@ package tp1;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.Random;
 
 import javax.swing.JOptionPane;
 
@@ -77,10 +78,10 @@ public class GestorEquipos {
 			
 			String partidoSeleccionado = (String)JOptionPane.showInputDialog(null, "Elija el numero de Partido",null, 0, null, partidosarray, partidosarray[0]); 
 			
-			JOptionPane.showMessageDialog(null, partidoSeleccionado);
 			for (Partido partido : ListaPartidos) {
 				if (partido.getNumPartido()==partidoSeleccionado) {
 					seleccionado = partido;
+					JOptionPane.showMessageDialog(null, partido.getEquipo1().getNombre()+" VS "+partido.getEquipo2().getNombre());
 					break;
 				}
 			}
@@ -208,69 +209,18 @@ public class GestorEquipos {
 		return fecha;
 		
 	}
-	public Equipo asignarEquipoAPartido() {
-		LinkedList<Equipo> ListaEquiposParaPartidos = new LinkedList<Equipo>();
-		ListaEquiposParaPartidos=ListaEquipos;
-		 String[] equipossarray = new String[ListaEquiposParaPartidos.size()];
-		 Equipo seleccionado=null;
-			
-			for (int i = 0; i < ListaEquiposParaPartidos.size(); i++) {
-				equipossarray[i] = ListaEquiposParaPartidos.get(i).getNombre();
-			}
-			
-			String equipoSeleccionado =(String)JOptionPane.showInputDialog(null, 
-					"Elija un Equipo", null, 0, 
-					null, equipossarray, equipossarray[0]);
-			
-			JOptionPane.showMessageDialog(null, equipoSeleccionado);
-			for (Equipo equipo : ListaEquiposParaPartidos) {
-				if (equipo.getNombre().equals(equipoSeleccionado)) {
-					seleccionado = equipo;
-					break;
-				}
-			}
-			ListaEquiposParaPartidos.remove(seleccionado);
-			return seleccionado;
-	}
 	public void  asignarPartido(){
 		Equipo equipo1=null;
 		Equipo equipo2=null;
 		LocalDate fecha;
 		String num="",fase="";
-		String [] numeros = {"Primero","Segundo","Tercero","Cuarto"};
 		if (ListaEquipos.size()<8) {
 			JOptionPane.showMessageDialog(null, "Todavía no estan creados todos los Equipos");
 		} else {
-			fecha = asignarFecha();
+			
 			if (ListaPartidos.size()<4) {
-				do {
-					do {
-						num=null;
-						num=(String)JOptionPane.showInputDialog(null, "Elija numero de Partido", null, 0, null, numeros, numeros[0]);
-						if (ListaPartidos.size()>0) {
-							for (Partido partido : ListaPartidos) {
-								if (num.equals(partido.getNumPartido())) {
-									num=null;
-									JOptionPane.showMessageDialog(null, "Ya se asigno ese partido");
-								}
-							}
-						}
-					} while (num==null);
-					
-					do {	
-						JOptionPane.showMessageDialog(null, "Elija el primer Equipo");
-						equipo1 = asignarEquipoAPartido();
-						JOptionPane.showMessageDialog(null, "Elija el segundo Equipo");
-						equipo2 = asignarEquipoAPartido();
-						if (equipo1==equipo2) {
-							JOptionPane.showMessageDialog(null, "Los equipos tienen que ser distintos");
-						}
-					} while (equipo1==equipo2);
-						fase="Primera fase";
-						ListaPartidos.add(new Partido(equipo1,equipo2,num,fase,fecha));
-						
-					
-				} while (ListaPartidos.size()<4);
+				fecha = asignarFecha();
+				generarPartidoAleatorio(fecha);
 				
 			} else if (ListaPartidos.size()<6) {
 				for (Partido partido : ListaPartidos) {
@@ -286,6 +236,8 @@ public class GestorEquipos {
 						fase="Segunda fase";
 						fecha=partido.getFecha().plusDays(1);
 						ListaPartidos.add(new Partido(equipo1,equipo2,num,fase,fecha));
+						JOptionPane.showMessageDialog(null, "Se agrego el quinto partido");
+						break;
 					}
 					
 				}
@@ -301,7 +253,10 @@ public class GestorEquipos {
 						fase="Segunda fase";
 						fecha=partido.getFecha().plusDays(1);
 						ListaPartidos.add(new Partido(equipo1,equipo2,num,fase,fecha));
+						JOptionPane.showMessageDialog(null, "Se agrego el sexto partido");
+						break;
 					}
+					
 					
 				}
 			} else if (ListaPartidos.size()<7) {
@@ -317,6 +272,8 @@ public class GestorEquipos {
 						fase="Tercera fase";
 						fecha=partido.getFecha().plusDays(1);
 						ListaPartidos.add(new Partido(equipo1,equipo2,num,fase,fecha));
+						JOptionPane.showMessageDialog(null, "Se agrego el septimo partido");
+						break;
 					}
 					
 				}
@@ -366,8 +323,9 @@ public class GestorEquipos {
 		String [] opciones= {"Sí","No"};
 		String [] opcionesdeapuesta= {partido.getEquipo1().getNombre(),partido.getEquipo2().getNombre()};
 		String opcion;
+		String descripcion="";
 		String apostado = "";
-		if (partido.getGanador()==null) {
+		if (partido.getEstado().equals("Pendiente")) {
 			if (partido.getEquipo1().getListajugadores().size()<7) {
 				JOptionPane.showMessageDialog(null, "No se puede jugar porque no hay jugadores suficientes");
 			} else if (partido.getEquipo2().getListajugadores().size()<7) {
@@ -384,7 +342,7 @@ public class GestorEquipos {
 						if (!jugador.getPosicion().equals("Arquero")) {
 							if ((int)(Math.random()*5)==0) {
 								jugador.setCantGoles(jugador.getCantGoles()+1);
-								JOptionPane.showMessageDialog(null, jugador.getNombre()+" de "+partido.getEquipo1().getNombre()+" hizo gol");
+								descripcion=descripcion+"\n"+jugador.getNombre()+" de "+partido.getEquipo1().getNombre()+" hizo gol.";
 								goles1++;
 							}
 						}
@@ -397,7 +355,7 @@ public class GestorEquipos {
 							if (!jugador.getPosicion().equals("Arquero")) {
 								if ((int)(Math.random()*5)==0) {
 									jugador.setCantGoles(jugador.getCantGoles()+1);
-									JOptionPane.showMessageDialog(null, jugador.getNombre()+" de "+partido.getEquipo1().getNombre()+" hizo gol");
+									descripcion=descripcion+"\n"+jugador.getNombre()+" de "+partido.getEquipo2().getNombre()+" hizo gol.";
 									goles2++;
 								}
 							}
@@ -410,21 +368,23 @@ public class GestorEquipos {
 				partido.setCantgoles(goles1+goles2);
 				partido.setGoles1(goles1);
 				partido.setGoles2(goles2);
+				partido.setEstado("Finalizado");
 				partido.getEquipo1().setPartidosjugados(partido.getEquipo1().getPartidosjugados()+1);
 				partido.getEquipo2().setPartidosjugados(partido.getEquipo2().getPartidosjugados()+1);
-					JOptionPane.showMessageDialog(null, "El resultado del partido fue "+goles1+"-"+goles2);
+				descripcion=descripcion+"\nEl resultado del partido fue "+goles1+"-"+goles2;
 					if (goles1<goles2) {
 						partido.setGanador(partido.getEquipo2());
 						partido.setPerdedor(partido.getEquipo1());
 
 						partido.getEquipo2().setPartidosganados(partido.getEquipo2().getPartidosganados()+1);
-						JOptionPane.showMessageDialog(null, "El equipo ganador fue: "+partido.getEquipo2().getNombre());
+						descripcion=descripcion+"El equipo ganador fue: "+partido.getEquipo2().getNombre();
 					} else {
 						partido.setGanador(partido.getEquipo1());
 						partido.setPerdedor(partido.getEquipo2());
 						partido.getEquipo1().setPartidosganados(partido.getEquipo1().getPartidosganados()+1);
-						JOptionPane.showMessageDialog(null, "El equipo ganador fue: "+partido.getEquipo1().getNombre());
+						descripcion=descripcion+"El equipo ganador fue: "+partido.getEquipo1().getNombre();
 					}
+					JOptionPane.showMessageDialog(null, descripcion);
 					if (opcion.equals("Sí")) {
 						if (apostado.equals(partido.getGanador().getNombre())) {
 							apuesta=apuesta*2;
@@ -445,7 +405,7 @@ public class GestorEquipos {
 	public void verEstadisticas(){
 		int max=0; 
 		String maxjugador="",opcion,maxgoles="", maxdif="",ganador="";
-		String [] opciones= {"Jugador con más goles","Equipo que ganó el torneo","Partido con más goles","Ver partido con mayor diferencia de goles"};
+		String [] opciones= {"Jugador con más goles","Equipo que que más ganó","Partido con más goles","Ver partido con mayor diferencia de goles"};
 		
 		opcion=(String)JOptionPane.showInputDialog(null, "Ingrese lo que desea ver", null, 0, null, opciones, opciones[0]);
 		switch (opcion) {
@@ -483,7 +443,7 @@ public class GestorEquipos {
 			for (Partido partido : ListaPartidos) {
 				if (partido.getCantgoles()>max) {
 					max=partido.getCantgoles();
-					maxgoles="El partido entre "+partido.getEquipo1()+ "y "+partido.getEquipo2()+" es el que tuvo más goles";
+					maxgoles="El partido entre "+partido.getEquipo1().getNombre()+ "y "+partido.getEquipo2().getNombre()+" es el que tuvo más goles";
 				}
 			}
 			JOptionPane.showMessageDialog(null, maxgoles);
@@ -508,6 +468,51 @@ public class GestorEquipos {
 		
 		
 		
+	}
+	
+	public void generarPartidoAleatorio(LocalDate fecha) {
+		int[]aleatorio=new int[8];
+		String num;
+		String [] numeros = {"Primero","Segundo","Tercero","Cuarto"};
+		Random random = new Random();
+		for (int i = 0; i < 8; i++) {
+			int numero;
+			boolean flag;
+			do {
+				
+			
+			flag=true;
+			
+			numero = random.nextInt(8);
+			
+			for (int j = 0; j < i; j++) {
+				if (numero == aleatorio[j]) {
+					flag = false;
+					break;
+				}
+			}
+			} while (!flag);
+			aleatorio[i] = numero;
+		}
+		
+
+		for (int i = 0; i < aleatorio.length; i+=2) {
+			do {
+				num=null;
+				num=(String)JOptionPane.showInputDialog(null, "Elija numero de Partido", null, 0, null, numeros, numeros[0]);
+				if (ListaPartidos.size()>0) {
+					for (Partido partido : ListaPartidos) {
+						if (num.equals(partido.getNumPartido())) {
+							num=null;
+							JOptionPane.showMessageDialog(null, "Ya se asigno ese partido");
+							break;
+						}
+					}
+				}
+			} while (num==null);
+			ListaPartidos.add(new Partido(ListaEquipos.get(aleatorio[i]),ListaEquipos.get(aleatorio[i+1]),num,"Primera",fecha));
+			JOptionPane.showMessageDialog(null, "Se creo el partido numero "+num+" sera entre "+ListaEquipos.get(aleatorio[i]).getNombre()+" y "+ListaEquipos.get(aleatorio[i+1]).getNombre());
+		}
 	}
 		
 		
