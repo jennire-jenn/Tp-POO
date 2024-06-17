@@ -96,8 +96,8 @@ public class Partido {
 	}
 	@Override
 	public String toString() {
-		return "Partido [numPartido=" + numPartido + ", equipo1=" + equipo1 + ", equipo2=" + equipo2 + ", ganador="
-				+ ganador + ", perdedor=" + perdedor + ", fase=" + fase + ", cantgoles=" + cantgoles + ", goles1="
+		return "Partido [numPartido=" + numPartido + ", equipo1=" + equipo1.getNombre()+ ", equipo2=" + equipo2.getNombre() + ", ganador="
+				+ ganador.getNombre() + ", perdedor=" + perdedor.getNombre() + ", fase=" + fase + ", cantgoles=" + cantgoles + ", goles1="
 				+ goles1 + ", goles2=" + goles2 + ", fecha=" + fecha + ", estado=" + estado + "]";
 	}
 

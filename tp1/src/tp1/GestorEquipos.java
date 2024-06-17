@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class GestorEquipos {
@@ -125,6 +126,7 @@ public class GestorEquipos {
 	 JOptionPane.showMessageDialog(null, "Se crearon "+cant+" equipos");
 	 for (Equipo equipo : ListaEquipos) {
 		equipo.agregarJugadoresFalso(11);
+		equipo.setCantjug(equipo.getCantjug()+11);
 	}
 	 JOptionPane.showMessageDialog(null, "Se agregaron 11 jugadores a todos los equipos");
 		 
@@ -212,6 +214,8 @@ public class GestorEquipos {
 	public void  asignarPartido(){
 		Equipo equipo1=null;
 		Equipo equipo2=null;
+		Equipo equipo3=null;
+		Equipo equipo4=null;
 		LocalDate fecha;
 		String num="",fase="";
 		if (ListaEquipos.size()<8) {
@@ -243,16 +247,16 @@ public class GestorEquipos {
 				}
 				for (Partido partido : ListaPartidos) {
 					if (partido.getNumPartido().equals("Tercero")) {
-						equipo1=partido.getGanador();
+						equipo3=partido.getGanador();
 					}
 					if (partido.getNumPartido().equals("Cuarto")) {
-						equipo2=partido.getGanador();
+						equipo4=partido.getGanador();
 					}
-					if (!(equipo1==null)&&!(equipo2==null)) {
+					if (!(equipo3==null)&&!(equipo4==null)) {
 						num="Sexto";
 						fase="Segunda fase";
 						fecha=partido.getFecha().plusDays(1);
-						ListaPartidos.add(new Partido(equipo1,equipo2,num,fase,fecha));
+						ListaPartidos.add(new Partido(equipo3,equipo4,num,fase,fecha));
 						JOptionPane.showMessageDialog(null, "Se agrego el sexto partido");
 						break;
 					}
@@ -285,6 +289,11 @@ public class GestorEquipos {
 		
 	}
 	public void  buscarEquipo(){
+		if (ListaEquipos.size()==0) {
+			JOptionPane.showMessageDialog(null, "Todavia no hay equipos");
+		} else {
+
+		}
 		Equipo seleccionado = seleccionarEquipo();
 		for (Equipo equipo : ListaEquipos) {
 			if (equipo==seleccionado) {
@@ -295,11 +304,16 @@ public class GestorEquipos {
 		
 	}
 	public void buscarPartido() {
-		Partido seleccionado = seleccionarPartido();
-		JOptionPane.showMessageDialog(null, seleccionado);
+		if (ListaPartidos.size()==0) {
+			JOptionPane.showMessageDialog(null, "Todavia no hay partidos");
+		} else {
+			Partido seleccionado = seleccionarPartido();
+			JOptionPane.showMessageDialog(null, seleccionado);
+		}
+		
 	}
 	public void  verCantEquipos(){
-		JOptionPane.showMessageDialog(null, "Hay "+ListaEquipos.size()+"Equipos");
+		JOptionPane.showMessageDialog(null, "Hay "+ListaEquipos.size()+" Equipos");
 		
 	}
 	public void  verListaEquipos(){
@@ -377,14 +391,14 @@ public class GestorEquipos {
 						partido.setPerdedor(partido.getEquipo1());
 
 						partido.getEquipo2().setPartidosganados(partido.getEquipo2().getPartidosganados()+1);
-						descripcion=descripcion+"El equipo ganador fue: "+partido.getEquipo2().getNombre();
+						descripcion=descripcion+"\nEl equipo ganador fue: "+partido.getEquipo2().getNombre();
 					} else {
 						partido.setGanador(partido.getEquipo1());
 						partido.setPerdedor(partido.getEquipo2());
 						partido.getEquipo1().setPartidosganados(partido.getEquipo1().getPartidosganados()+1);
-						descripcion=descripcion+"El equipo ganador fue: "+partido.getEquipo1().getNombre();
+						descripcion=descripcion+"\nEl equipo ganador fue: "+partido.getEquipo1().getNombre();
 					}
-					JOptionPane.showMessageDialog(null, descripcion);
+					JOptionPane.showMessageDialog(null, descripcion, partido.getEquipo1().getNombre()+" VS "+partido.getEquipo2().getNombre(), JOptionPane.WARNING_MESSAGE,new ImageIcon(GestorEquipos.class.getResource("/img/gol.jpg")));
 					if (opcion.equals("Sí")) {
 						if (apostado.equals(partido.getGanador().getNombre())) {
 							apuesta=apuesta*2;
@@ -402,61 +416,77 @@ public class GestorEquipos {
 		
 		
 	}
+	
 	public void verEstadisticas(){
 		int max=0; 
-		String maxjugador="",opcion,maxgoles="", maxdif="",ganador="";
-		String [] opciones= {"Jugador con más goles","Equipo que que más ganó","Partido con más goles","Ver partido con mayor diferencia de goles"};
-		
-		opcion=(String)JOptionPane.showInputDialog(null, "Ingrese lo que desea ver", null, 0, null, opciones, opciones[0]);
-		switch (opcion) {
-		case "Jugador con más goles":
-			for (Equipo equipo : ListaEquipos) {
-				for (Jugador jugador : equipo.getListajugadores()) {
-					if (jugador.getCantGoles()>max) {
-						max=jugador.getCantGoles();
-						maxjugador=jugador.getNombre()+" del equipo"+equipo.getNombre()+" es el jugador con más goles";
-					}
-				}
+		String maxjugador="",opcion,maxgoles="", maxdif="",ganador="",fase;
+		String [] opciones= {"Jugador con más goles","Equipo que más ganó","Partido con más goles","Ver partido con mayor diferencia de goles","Salir"};
+		if (ListaPartidos.size()==0) {
+			JOptionPane.showMessageDialog(null, "Todavia no hay partidos");
+		} else {
+			if (ListaPartidos.size()==4) {
+				fase="primera fase";
+			} else if (ListaPartidos.size()==6) {
+				fase="segunda fase";
+			} else {
+				fase="tercera fase";
 			}
-			JOptionPane.showMessageDialog(null, maxjugador);
-			break;
-		case "Ver partido con mayor diferencia de goles":
-			max=0;
-		int	dif=0;
 			
-				for (Partido partido : ListaPartidos) {
-					if (partido.getGoles1()>partido.getGoles2()) {
-						dif = partido.getGoles1() - partido.getGoles2();
-					} else {
-						dif = partido.getGoles2() - partido.getGoles1();
+			do {
+				opcion=(String)JOptionPane.showInputDialog(null, "Actualmente en "+fase, null, 0, null, opciones, opciones[0]);
+				switch (opcion) {
+				case "Jugador con más goles":
+					for (Equipo equipo : ListaEquipos) {
+						for (Jugador jugador : equipo.getListajugadores()) {
+							if (jugador.getCantGoles()>max) {
+								max=jugador.getCantGoles();
+								maxjugador=jugador.getNombre()+" del equipo "+equipo.getNombre()+" es el jugador con más goles";
+							}
+						}
 					}
+					JOptionPane.showMessageDialog(null, maxjugador);
+					break;
+				case "Ver partido con mayor diferencia de goles":
+					max=0;
+				int	dif=0;
 					
-					if (dif>max) {
-						max=dif;
-						maxdif="El partido con mayor diferencia fue el de "+partido.getEquipo1().getNombre()+" contra "+partido.getEquipo2().getNombre();
+						for (Partido partido : ListaPartidos) {
+							if (partido.getGoles1()>partido.getGoles2()) {
+								dif = partido.getGoles1() - partido.getGoles2();
+							} else {
+								dif = partido.getGoles2() - partido.getGoles1();
+							}
+							
+							if (dif>max) {
+								max=dif;
+								maxdif="El partido con mayor diferencia fue el de "+partido.getEquipo1().getNombre()+" contra "+partido.getEquipo2().getNombre();
+							}
+						}
+					
+					JOptionPane.showMessageDialog(null, maxdif);
+					break;
+				case "Partido con más goles":
+					for (Partido partido : ListaPartidos) {
+						if (partido.getCantgoles()>max) {
+							max=partido.getCantgoles();
+							maxgoles="El partido entre "+partido.getEquipo1().getNombre()+ " y "+partido.getEquipo2().getNombre()+" es el que tuvo más goles";
+						}
 					}
+					JOptionPane.showMessageDialog(null, maxgoles);
+					break;
+				case "Equipo que más ganó":
+					for (Equipo equipo : ListaEquipos) {
+						if (equipo.getPartidosganados()>max) {
+							max=equipo.getPartidosganados();
+							ganador="El equipo ganador fue "+equipo.getNombre();
+						}
+					}
+					JOptionPane.showMessageDialog(null, ganador);
+					break;
 				}
 			
-			JOptionPane.showMessageDialog(null, maxdif);
-			break;
-		case "Partido con más goles":
-			for (Partido partido : ListaPartidos) {
-				if (partido.getCantgoles()>max) {
-					max=partido.getCantgoles();
-					maxgoles="El partido entre "+partido.getEquipo1().getNombre()+ "y "+partido.getEquipo2().getNombre()+" es el que tuvo más goles";
-				}
-			}
-			JOptionPane.showMessageDialog(null, maxgoles);
-			break;
-		case "Equipo que más ganó":
-			for (Equipo equipo : ListaEquipos) {
-				if (equipo.getPartidosganados()>max) {
-					max=equipo.getPartidosganados();
-					ganador="El equipo ganador fue "+equipo;
-				}
-			}
-			JOptionPane.showMessageDialog(null, ganador);
-			break;
+			} while (!opcion.equals("Salir"));
+			
 		}
 	
 		
@@ -510,7 +540,7 @@ public class GestorEquipos {
 					}
 				}
 			} while (num==null);
-			ListaPartidos.add(new Partido(ListaEquipos.get(aleatorio[i]),ListaEquipos.get(aleatorio[i+1]),num,"Primera",fecha));
+			ListaPartidos.add(new Partido(ListaEquipos.get(aleatorio[i]),ListaEquipos.get(aleatorio[i+1]),num,"Primera fase",fecha));
 			JOptionPane.showMessageDialog(null, "Se creo el partido numero "+num+" sera entre "+ListaEquipos.get(aleatorio[i]).getNombre()+" y "+ListaEquipos.get(aleatorio[i+1]).getNombre());
 		}
 	}

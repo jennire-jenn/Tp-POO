@@ -76,7 +76,7 @@ public class Equipo {
 	@Override
 	public String toString() {
 		return "Equipo [nombre=" + nombre + ", cantjug=" + cantjug + ", colores=" + colores + ", ciudad=" + ciudad
-				+ ", Listajugadores=" + ListaJugadores + ", partidosjugados=" + partidosjugados + ", partidosganados="
+				+ ", partidosjugados=" + partidosjugados + ", partidosganados="
 				+ partidosganados + ", partidosperdidos=" + partidosperdidos + "]";
 	}
 	

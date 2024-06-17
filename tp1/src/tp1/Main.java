@@ -9,7 +9,7 @@ class Main {
 		String [] opcionesprincipales = {"Gestionar jugadores","Gestionar equipos", "Gestionar partidos","Salir"};
 		String [] opcionesdeequipo = {"Agregar Jugador","Eliminar Jugador", "Modificar Jugador","Rellenar","Ver Jugador","Ver cantidad de Jugadores", "Ver Lista de Jugadores", "Salir"};
 		String [] opcionesdegestor = {"Agregar Equipo","Rellenar Equipos","Eliminar Equipo", "Modificar Equipo","Ver Equipo","Ver cantidad de Equipos", "Ver Lista de Equipos","Salir"};
-		String [] opcionesdepartido = {"Asignar Partido", "Jugar Partido","Ver estadisticas","Salir"};
+		String [] opcionesdepartido = {"Asignar Partido", "Jugar Partido","Ver estadisticas","Ver informacion del partido","Salir"};
 		Equipo equipo;
 		Partido partido;
 		String opcion,opcion2;
@@ -91,14 +91,22 @@ class Main {
 				
 				
 				do {
-					opcion2=(String) JOptionPane.showInputDialog(null, "Ingrese la accion a realizar", null, JOptionPane.DEFAULT_OPTION, new ImageIcon(Main.class.getResource("/img/partido.jpg")), opcionesdepartido, opcionesdepartido[0]);
+					opcion2=(String) JOptionPane.showInputDialog(null, "Ingrese la accion a realizar", null, JOptionPane.DEFAULT_OPTION, new ImageIcon(Main.class.getResource("/img/partido.png")), opcionesdepartido, opcionesdepartido[0]);
 					switch (opcion2) {
+					case "Ver informacion del partido":
+						gestor.buscarPartido();
+						break;
 					case "Asignar Partido":
 						gestor.asignarPartido();
 						break;
 					case "Jugar Partido":
-						partido=gestor.seleccionarPartido();
-						gestor.jugarPartido(partido);
+						if (gestor.getListaPartidos().size()==0) {
+							JOptionPane.showMessageDialog(null, "Todavia no hay partidos");
+						} else {
+							partido=gestor.seleccionarPartido();
+							gestor.jugarPartido(partido);
+						}
+						
 					break;
 					case "Ver estadisticas":
 						gestor.verEstadisticas();
