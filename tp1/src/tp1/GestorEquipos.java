@@ -131,6 +131,16 @@ public class GestorEquipos {
 	 JOptionPane.showMessageDialog(null, "Se agregaron 11 jugadores a todos los equipos");
 		 
 	 }
+ public void usarEquiposPredeterminados() {
+	 ListaEquipos.add(new Equipo("Boca","Azul y Amarillo","CABA"));
+	 ListaEquipos.add(new Equipo("River","Blanco y Rojo","CABA"));
+	 ListaEquipos.add(new Equipo("Huracan","Blanco y Rojo","Las Heras"));
+	 ListaEquipos.add(new Equipo("Racing","Azul y Blanco","Avellaneda"));
+	 ListaEquipos.add(new Equipo("Platense","Marron y Blanco","CABA"));
+	 ListaEquipos.add(new Equipo("San Lorenzo","Azul y Rojo","CABA"));
+	 ListaEquipos.add(new Equipo("Lanús","Granate","Lanús"));
+	 ListaEquipos.add(new Equipo("Estudiantes de la Plata","Rojo y Blanco","La Plata"));
+ }
 	
 	public void  eliminarEquipo() {
 		
@@ -440,7 +450,7 @@ public class GestorEquipos {
 						for (Jugador jugador : equipo.getListajugadores()) {
 							if (jugador.getCantGoles()>max) {
 								max=jugador.getCantGoles();
-								maxjugador=jugador.getNombre()+" del equipo "+equipo.getNombre()+" es el jugador con más goles";
+								maxjugador=jugador.getNombre()+" del equipo "+equipo.getNombre()+" es el jugador con más goles con "+max;
 							}
 						}
 					}
@@ -459,7 +469,7 @@ public class GestorEquipos {
 							
 							if (dif>max) {
 								max=dif;
-								maxdif="El partido con mayor diferencia fue el de "+partido.getEquipo1().getNombre()+" contra "+partido.getEquipo2().getNombre();
+								maxdif="El partido con mayor diferencia fue el de "+partido.getEquipo1().getNombre()+" contra "+partido.getEquipo2().getNombre()+" con "+dif;
 							}
 						}
 					
@@ -469,7 +479,7 @@ public class GestorEquipos {
 					for (Partido partido : ListaPartidos) {
 						if (partido.getCantgoles()>max) {
 							max=partido.getCantgoles();
-							maxgoles="El partido entre "+partido.getEquipo1().getNombre()+ " y "+partido.getEquipo2().getNombre()+" es el que tuvo más goles";
+							maxgoles="El partido entre "+partido.getEquipo1().getNombre()+ " y "+partido.getEquipo2().getNombre()+" es el que tuvo más goles con "+max;
 						}
 					}
 					JOptionPane.showMessageDialog(null, maxgoles);
