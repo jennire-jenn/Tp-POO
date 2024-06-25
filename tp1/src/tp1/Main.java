@@ -8,7 +8,7 @@ class Main {
 	public static void main(String[] args) {
 		String [] opcionesprincipales = {"Gestionar jugadores","Gestionar equipos", "Gestionar partidos","Salir"};
 		String [] opcionesdeequipo = {"Agregar Jugador","Eliminar Jugador", "Modificar Jugador","Rellenar","Ver Jugador","Ver cantidad de Jugadores", "Ver Lista de Jugadores", "Salir"};
-		String [] opcionesdegestor = {"Agregar Equipo","Rellenar Equipos","Eliminar Equipo", "Modificar Equipo","Ver Equipo","Ver cantidad de Equipos", "Ver Lista de Equipos","Salir"};
+		String [] opcionesdegestor = {"Agregar Equipo","Rellenar Equipos","Usar Equipos Predeterminados","Eliminar Equipo", "Modificar Equipo","Ver Equipo","Ver cantidad de Equipos", "Ver Lista de Equipos","Salir"};
 		String [] opcionesdepartido = {"Asignar Partido", "Jugar Partido","Ver estadisticas","Ver informacion del partido","Salir"};
 		Equipo equipo;
 		Partido partido;
@@ -83,6 +83,9 @@ class Main {
 						break;
 					case "Rellenar Equipos":
 						gestor.rellenarEquipos();
+						break;
+					case "Usar Equipos Predeterminados":
+						gestor.usarEquiposPredeterminados();
 						break;
 					}
 				} while (!opcion2.equals("Salir"));

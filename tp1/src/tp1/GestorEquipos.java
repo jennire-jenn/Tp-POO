@@ -132,6 +132,12 @@ public class GestorEquipos {
 		 
 	 }
  public void usarEquiposPredeterminados() {
+	 String [] posiciones = {"Delantero","Lateral Derecho","Lateral izquierdo", "Centro","Defensa"};
+	 String [] nombres = {"Dante","Andres","Alonso","Ignacio","Marcos","Carlos","Daniel","Enzo","Julian","Lautaro","Pablo","Juan","Fabrizio","Fausto",
+			 "Mauricio","Mauro","Mateo","Migel","Dariel","Jorge","Jeremías","Martin","Adrian","Manuel","Javier","Alex","Liam","Gonzalo","Nicolar","Dylan",
+			 "Gabriel","Hector","Jaime"};
+	 int [] edades = {18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37};
+	 int edad, nombre, posicion;
 	 ListaEquipos.add(new Equipo("Boca","Azul y Amarillo","CABA"));
 	 ListaEquipos.add(new Equipo("River","Blanco y Rojo","CABA"));
 	 ListaEquipos.add(new Equipo("Huracan","Blanco y Rojo","Las Heras"));
@@ -140,6 +146,57 @@ public class GestorEquipos {
 	 ListaEquipos.add(new Equipo("San Lorenzo","Azul y Rojo","CABA"));
 	 ListaEquipos.add(new Equipo("Lanús","Granate","Lanús"));
 	 ListaEquipos.add(new Equipo("Estudiantes de la Plata","Rojo y Blanco","La Plata"));
+	 for (int i = 0; i < ListaEquipos.size(); i++) {
+		 for (int j = 0; j < 12; j++) {
+				boolean flag = true;
+				do {
+						int camisa = (int)(Math.random()*99+1);
+						String camiseta = ""+camisa;
+						
+					for (Jugador jugador: ListaEquipos.get(i).getListajugadores()) {
+						if (jugador.getNroCamiseta().equals(camiseta)) {
+							flag=false;
+						} 
+						
+					}
+					nombre=(int)(Math.random()*33);
+					posicion=(int)(Math.random()*5);
+					edad =(int)(Math.random()*20);
+					ListaEquipos.get(i).getListajugadores().add(new Jugador(nombres[nombre],posiciones[posicion],camiseta,edades[edad]));
+					break;
+				} while (flag==false);
+				
+				
+		
+		 }
+		
+		 
+	 
+	 }
+	 for (int k = 0; k < ListaEquipos.size(); k++) {
+			Boolean flag = true;
+			do {
+					int camisa = (int)(Math.random()*99+1);
+					String camiseta = ""+camisa;
+					
+				for (Jugador jugador: ListaEquipos.get(k).getListajugadores()) {
+					if (jugador.getNroCamiseta().equals(camiseta)) {
+						flag=false;
+					} 
+					
+				}
+				nombre=(int)(Math.random()*33);
+				
+				edad =(int)(Math.random()*20);
+				ListaEquipos.get(k).getListajugadores().add(new Jugador(nombres[nombre],"Arquero",camiseta,edades[edad]));
+				ListaEquipos.get(k).setCantjug(13);
+				break;
+			} while (flag==false);
+			
+		}
+		JOptionPane.showMessageDialog(null, "Los equipos se agregaron correctamente");
+	 
+	 
  }
 	
 	public void  eliminarEquipo() {
