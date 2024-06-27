@@ -6,6 +6,7 @@ public class Jugador {
 	private String nroCamiseta;
 	private int edad;
 	private int cantGoles;
+	private int tarjetasA;
 	public Jugador(String nombre, String posicion, String nroCamiseta,int edad) {
 		super();
 		this.nombre = nombre;
@@ -13,14 +14,16 @@ public class Jugador {
 		this.nroCamiseta = nroCamiseta;
 		this.edad = edad;
 		this.cantGoles = 0;
+		this.tarjetasA = 0;
 	}
-	public Jugador(String nombre, String posicion, String nroCamiseta, int edad, int cantGoles) {
+	public Jugador(String nombre, String posicion, String nroCamiseta, int edad, int cantGoles, int tarjetasA) {
 		super();
 		this.nombre = nombre;
 		this.posicion = posicion;
 		this.nroCamiseta = nroCamiseta;
 		this.edad = edad;
 		this.cantGoles = cantGoles;
+		this.tarjetasA = tarjetasA;
 	}
 	public String getNombre() {
 		return nombre;
@@ -52,11 +55,18 @@ public class Jugador {
 	public void setCantGoles(int cantGoles) {
 		this.cantGoles = cantGoles;
 	}
-	
+	public int getTarjetasA() {
+		return tarjetasA;
+	}
+	public void setTarjetasA(int tarjetasA) {
+		this.tarjetasA = tarjetasA;
+	}
 	@Override
 	public String toString() {
 		return "Jugador [nombre=" + nombre + ", posicion=" + posicion + ", nroCamiseta=" + nroCamiseta + ", edad="
-				+ edad + ", cantGoles=" + cantGoles + "]";
+				+ edad + ", cantGoles=" + cantGoles + ", tarjetasA=" + tarjetasA + "]";
 	}
+	
+
 	
 }

@@ -14,6 +14,7 @@ public class Partido {
 	private int goles2;
 	private LocalDate fecha;
 	private String estado;
+	private int tarjetasA;
 	public Partido(Equipo equipo1, Equipo equipo2, String numPartido, String fase, LocalDate fecha) {
 		super();
 		this.numPartido=numPartido;
@@ -27,6 +28,7 @@ public class Partido {
 		this.goles2 = 0;
 		this.fecha = fecha;
 		this.estado = "Pendiente";
+		this.tarjetasA = 0;
 	}
 	public String getEstado() {
 		return estado;
@@ -94,12 +96,20 @@ public class Partido {
 	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
+	public int getTarjetasA() {
+		return tarjetasA;
+	}
+	public void setTarjetasA(int tarjetasA) {
+		this.tarjetasA = tarjetasA;
+	}
 	@Override
 	public String toString() {
-		return "Partido [numPartido=" + numPartido + ", equipo1=" + equipo1.getNombre()+ ", equipo2=" + equipo2.getNombre() + ", ganador="
+		return "Partido [numPartido=" + numPartido + ", equipo1=" + equipo1.getNombre() + ", equipo2=" + equipo2.getNombre() + ", ganador="
 				+ ganador.getNombre() + ", perdedor=" + perdedor.getNombre() + ", fase=" + fase + ", cantgoles=" + cantgoles + ", goles1="
-				+ goles1 + ", goles2=" + goles2 + ", fecha=" + fecha + ", estado=" + estado + "]";
+				+ goles1 + ", goles2=" + goles2 + ", fecha=" + fecha + ", estado=" + estado + ", tarjetasA=" + tarjetasA
+				+ "]";
 	}
+	
 
 	
 	

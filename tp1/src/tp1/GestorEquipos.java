@@ -426,6 +426,11 @@ public class GestorEquipos {
 								descripcion=descripcion+"\n"+jugador.getNombre()+" de "+partido.getEquipo1().getNombre()+" hizo gol.";
 								goles1++;
 							}
+							if ((int)(Math.random()*100)==0 || (int)(Math.random()*100)==1 || (int)(Math.random()*100)==2) {
+								jugador.setTarjetasA(jugador.getTarjetasA()+1);
+								descripcion=descripcion+"\n"+jugador.getNombre()+" de "+partido.getEquipo1().getNombre()+" obtuvo una tarjeta amarilla";
+								partido.setTarjetasA(partido.getTarjetasA()+1);
+							}
 						}
 						} 
 							
@@ -438,6 +443,11 @@ public class GestorEquipos {
 									jugador.setCantGoles(jugador.getCantGoles()+1);
 									descripcion=descripcion+"\n"+jugador.getNombre()+" de "+partido.getEquipo2().getNombre()+" hizo gol.";
 									goles2++;
+								}
+								if ((int)(Math.random()*100)==0 || (int)(Math.random()*100)==1 || (int)(Math.random()*100)==2) {
+									jugador.setTarjetasA(jugador.getTarjetasA()+1);
+									descripcion=descripcion+"\n"+jugador.getNombre()+" de "+partido.getEquipo2().getNombre()+" obtuvo una tarjeta amarilla";
+									partido.setTarjetasA(partido.getTarjetasA()+1);
 								}
 							}
 								
@@ -533,6 +543,7 @@ public class GestorEquipos {
 					JOptionPane.showMessageDialog(null, maxdif);
 					break;
 				case "Partido con más goles":
+					max=0;
 					for (Partido partido : ListaPartidos) {
 						if (partido.getCantgoles()>max) {
 							max=partido.getCantgoles();
@@ -542,6 +553,7 @@ public class GestorEquipos {
 					JOptionPane.showMessageDialog(null, maxgoles);
 					break;
 				case "Equipo que más ganó":
+					max=0;
 					for (Equipo equipo : ListaEquipos) {
 						if (equipo.getPartidosganados()>max) {
 							max=equipo.getPartidosganados();
